@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="ISO-8859-1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://kit.fontawesome.com/83593f44ca.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	 <script th:inline="javascript" th:src="@{/js/slider.js}"></script> 
+	<title>ADMIN - PARTICIPANTS</title>
+</head>
+	<body>
+		<div class="container">
+			<nav class="navbar navbar-inverse">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="#">HOMELINK</a>
+			    </div>
+				<ul class="nav justify-content-end">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/admin}" href="#">ADMIN <i class="fas fa-user-lock"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/test}" href="#">TEST <i class="fas fa-edit"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/logout}" href="#">LOGOUT <i class="fas fa-sign-out-alt"></i></a>			      
+				    </li>
+				  </ul>
+			  </div>
+			</nav>
+			<div th:if="${message}">
+				<h2 th:text="${message}" class="text-center"></h2>
+			</div>	
+			<div th:unless="${message}">
+				<h4 th:text="${user.name+' '+user.surname+' Exam Profile' }"class="text-center">Jane Loo Exam Profile</h4>
+				
+				<div class="row">
+					<!-- Nav pills -->
+					<ul class="nav nav-pills flex-column col" role="tablist">
+						<li class="nav-item" th:each="test, testStat : ${tests}" >
+							<a class="nav-link" th:text="${test.name+' : ('+test.createdOn+')'}" data-toggle="pill" th:href="@{${'#menu'+testStat.index}}">Home</a>
+						</li>
+					</ul>
+					
+					<!-- Tab panes -->
+					<div class="tab-content col">				
+						<div th:id="${'menu'+scoreStat.index}" th:each="score, scoreStat : ${scores}" class="container tab-pane fade"><br>
+							<h3>Score:</h3>
+							<p th:text="${score+'%'}">50.0%</p>
+						</div>
+					</div>
+				</div>
+					  
+				<ul class="pagination pagination-lg fixed-bottom justify-content-center">
+					<li th:if="${hasPreviousPage}" class="page-item"><a class="page-link" th:href="@{/tests/{currentPage}(currentPage=${currentPage-2})}">Previous</a></li>
+				 	<li class="page-item active"><a class="page-link" th:text="${currentPage}" href="#">1</a></li>
+				 	<li th:if="${hasNextPage}"  class="page-item"><a class="page-link" th:href="@{/tests/{currentPage}(currentPage=${currentPage})}">Next</a></li>
+				</ul>
+			</div>
+		</div>		
+		
+	</body>
+</html>

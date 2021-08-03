@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="ISO-8859-1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://kit.fontawesome.com/83593f44ca.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	 <script th:inline="javascript" th:src="@{/js/slider.js}"></script> 
+	<title>ADMIN - TESTS</title>
+</head>
+	<body>
+		<div class="container-fluid">
+			<nav class="navbar navbar-inverse">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="#">HOMELINK</a>
+			    </div>
+				<ul class="nav justify-content-end">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/admin}" href="#">ADMIN <i class="fas fa-user-lock"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/test}" href="#">TEST <i class="fas fa-edit"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/logout}" href="#">LOGOUT <i class="fas fa-sign-out-alt"></i></a>			      
+				    </li>
+				  </ul>
+			  </div>
+			</nav>
+			<div th:if="${message}">
+				<h2 th:text="${message}" class="text-center"></h2>
+			</div>	
+			<div th:unless="${message}">
+				<h1 class="text-center">Tests You've Uploaded</h1>
+				<div th:each="test : ${tests}">
+					<form class="form-inline justify-content-center" th:action="@{/tests}" th:method="POST">
+						<input type="hidden" name="id" th:value="${test.id}">
+						<input type="hidden" name="status" th:value="${test.status}" >
+						<input type="hidden" name="pageNo" th:value="${currentPage}">
+						<label class="mb-2 mr-sm-2"  for="id"># </label><input name="id" class="for-control mb-2 mr-sm-2" th:value="${test.id}" readonly>
+						<label class="mb-2 mr-sm-2"  for="name">Name: </label><input name="name" class="for-control mb-2 mr-sm-2" th:value="${test.name}" readonly>
+						<label class="mb-2 mr-sm-2"  for="duration">Duration: </label><input name="duration" class="for-control mb-2 mr-sm-2" th:value="${test.duration}" readonly>
+						<label class="mb-2 mr-sm-2"  for="status">Status: </label><input name="status" class="for-control mb-2 mr-sm-2" th:value="${test.status} ? 'ACTIVE' : 'INACTIVE'" readonly>
+						<label class="mb-2 mr-sm-2"  for="created-on">Created On: </label><input name="created-on" class="for-control mb-2 mr-sm-2" th:value="${test.createdOn}" readonly>
+						<button type="submit" th:text="${test.status} ? 'INACTIVATE' : 'ACTIVATE'"  class="btn btn-warning form-group mb-2 mr-sm-2">ACTIVATE</button>
+					</form>
+				</div>
+				<ul class="pagination pagination-lg warning fixed-bottom justify-content-center">
+					<li th:if="${hasPreviousPage}" class="page-item"><a class="page-link" th:href="@{/tests/{currentPage}(currentPage=${currentPage-2})}">Previous</a></li>
+				 	<li class="page-item active"><a class="page-link" th:text="${currentPage}" href="#">1</a></li>
+				 	<li th:if="${hasNextPage}"  class="page-item"><a class="page-link" th:href="@{/tests/{currentPage}(currentPage=${currentPage})}">Next</a></li>
+				</ul>
+			</div>
+		  
+		  
+		</div>
+	</body>
+</html>

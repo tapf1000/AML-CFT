@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="ISO-8859-1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://kit.fontawesome.com/83593f44ca.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script th:inline="javascript" th:src="@{/js/timer.js}"> var t = ${timer}</script> 	
+	<title>AML - Quiz</title>
+</head>
+	<body>
+		<div class="container-fluid">	
+		 <h6 class="d-flex justify-content-center">Logged In As: <strong th:text=${userName}>EMAIL</strong></h6>
+			<div th:if="${message}">
+				<nav class="navbar navbar-inverse">
+				  <div class="container-fluid">
+				    <div class="navbar-header">
+				      <a class="navbar-brand" href="#">HOMELINK</a>
+				    </div>
+					<ul class="nav justify-content-end">
+					    <li class="nav-item">
+					      <a class="nav-link" th:href="@{/admin}" href="#">ADMIN <i class="fas fa-user-lock"></i></a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link" th:href="@{/test}" href="#">TEST <i class="fas fa-edit"></i></a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link" th:href="@{/logout}" href="#">LOGOUT <i class="fas fa-sign-out-alt"></i></a>			      
+					    </li>
+					  </ul>
+				  </div>
+				</nav>
+				<div class="alert alert-danger alert-dismissible fade show">
+				  <button type="button" class="close" data-dismiss="alert">&times;</button>
+				  <strong th:text="${message}">Message!</strong> 
+				</div>
+			</div>
+			<div th:unless="${message}">
+				<form id="question-answer-form" method="post" th:action="@{/next-question}">
+				<div>Exam closes in <span id="time" th:text="${timer}">01:00:00</span> hours!</div>
+					<h2 id="question" th:text="${count+'. '+testQuestion.getQuestion()}">question</h2>
+					<div class="form-check" th:each="testAnswer: ${testAnswers}">
+				    	<input type="radio" th:id="${testAnswer.getId()}" class="form-check-input" name="answer" th:value="${testAnswer.getAnswer()}" checked>	
+						<label class="form-check-label" th:for="${testAnswer.getId()}" th:text="${testAnswer.getAnswer()}">Answer</label>				  
+					</div>
+					<input type="hidden" name="questionID" th:value="${testQuestion.getId()}">
+					<input type="hidden" name="count" th:value="${count}">
+					<input type="hidden" name="timer" id="timer" th:value="${timer}">
+					<button class="btn btn-lg btn block btn-light" id="submit-answer" type="submit">SUBMIT ANSWER</button>
+				</form>
+			</div>				
+			<!-- The Modal -->
+			<div class="modal fade" id="myModal">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">      
+			        <!-- Modal body -->
+			        <div class="modal-body">
+			          Ooops! Time ran out
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        </div>
+			    </div>
+			  </div>
+			</div>						
+		</div>	
+	</body>
+</html>

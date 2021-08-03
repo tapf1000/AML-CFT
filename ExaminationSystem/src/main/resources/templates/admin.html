@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="ISO-8859-1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://kit.fontawesome.com/83593f44ca.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	 <script th:inline="javascript" th:src="@{/js/slider.js}"></script> 			
+	<title>AML - ADMIN</title>
+</head>
+	<body>
+		<div class="container-fluid">
+			<nav class="navbar navbar-inverse">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="#">HOMELINK</a>
+			    </div>
+				<ul class="nav justify-content-end">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/admin}" href="#">ADMIN <i class="fas fa-user-lock"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/test}" href="#">TEST <i class="fas fa-edit"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/logout}" href="#">LOGOUT <i class="fas fa-sign-out-alt"></i></a>			      
+				    </li>
+				  </ul>
+			  </div>
+			</nav>	
+		<div th:if="${message}" class="alert alert-warning alert-dismissible fade show">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong th:text="${message}">Message!</strong> 
+		</div>			
+		  <div class="row">
+		    <div class="col-xl-2 col-md-3 col-sm-4">
+				<ul class="nav flex-column">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/tests/0}">Tests</a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/participants/0}">Participants</a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" href="#">Reports</a>
+				    </li>
+				  </ul>
+		    </div>
+		    <div class="col-xl-10 col-md-9 col-sm-8">
+		      	<form method="POST" th:action="@{/upload-csv-file}" enctype="multipart/form-data" class="form">
+				    <div class="">
+				    	<div class="form-group">
+				    		<input type="text" name="name" class="form-control input-group-text" placeholder="Exam Title" required>  
+				    	</div>	
+				    	<h4 class="text-center" id="slider_value">1.0</h4>				    		
+				    	<div class="form-group input-group-prepend">
+				    		<label class="" for="name">Duration (Hours)</label>
+				    		<input type="range" class="form-control-range" id="slider" name="duration" value="1.0" min="0.25" max="2.0" step="0.05" >
+				    	</div>		 
+				    </div>		    
+			        <input type="file" name="file" class="form-control-file border form-group" id="file" accept=".csv">
+			        <button type="submit" class="btn btn-warning btn-block form-group">Load Test</button>
+				</form>
+				<div th:if="${status==true}" style="height:25rem;overflow:auto;">
+					<table class="table table-striped table-bordered" >
+					    <thead>
+					      <tr>
+					        <th>item</th>
+					        <th>Question</th>
+					        <th>Answers</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr th:each="itemSet : ${questionAnswerFieldsSets}">
+					        <td th:text="${itemSetStat.index+1}">0</td>
+					        <td th:text="${itemSet.getQuestion()}">hello?</td>
+					        <td>
+								<ul th:each="answer : ${#strings.arraySplit(itemSet.getAnswers(),'|')}">
+									<li th:text="${answer}">answers</li>
+								</ul>
+							</td>
+					      </tr>
+					    </tbody>
+					  </table>
+				  </div>				  
+		    </div>
+		  </div>
+		  
+		</div>
+	</body>
+</html>

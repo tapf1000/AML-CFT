@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta charset="ISO-8859-1">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" th:href="@{/css/countdownStyler.css}">
+	<script src="https://kit.fontawesome.com/83593f44ca.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script th:inline="javascript" th:src="@{/js/modalShow.js}"></script> 	
+	<title>AML - Quiz</title>
+</head>
+	<body>
+		<div class="container-fluid">	
+			<nav class="navbar navbar-inverse">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <a class="navbar-brand" href="#">HOMELINK</a>
+			    </div>
+				<ul class="nav justify-content-end">
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/admin}" href="#">ADMIN <i class="fas fa-user-lock"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/test}" href="#">TEST <i class="fas fa-edit"></i></a>
+				    </li>
+				    <li class="nav-item">
+				      <a class="nav-link" th:href="@{/logout}" href="#">LOGOUT <i class="fas fa-sign-out-alt"></i></a>			      
+				    </li>
+				  </ul>
+			  </div>
+			</nav>
+			  <h3 class="d-flex justify-content-center">Logged In As: <strong th:text=${userName}>EMAIL</strong></h3>
+			<div >
+				<h2>Instructions</h2>
+				<p>Read the following instructions carefully before attempting any questions</p>
+				<ul>
+					<li>This is a timed exam</li>
+					<li>This exam last a duration of 60 minutes</li>
+					<li>If the exam duration lapses before you finish, your answered questions are automatically submitted</li>
+					<li>You cannot go back to a previous question</li>
+					<li>All questions must be answered</li>
+					<li>When Ready, Click "Start Test" Below</li>
+					<li>Click "SUBMIT ANSWER" to move on to next question</li>
+					<li>Do not refresh page as this will resubmit your answer</li>
+				</ul>
+				<form th:action="@{/test}" method="post"><button class="btn btn-lg btn-warning btn-block" type="submit">Start Test</button></form>
+			</div>
+			<div th:unless="${questioning == null}">
+				<div th:if="${message != null}">
+					<div class="alert alert-warning alert-dismissible fade show">
+					  <button type="button" class="close" data-dismiss="alert">&times;</button>
+					  <strong th:text="${message}">Message!</strong> 
+					</div>
+				</div>				
+			</div>		
+			
+			<input type="hidden" id="showModal" th:value="${showModal}">
+			<!-- The Modal -->
+			  <div class="modal fade" id="myModal">
+			    <div class="modal-dialog modal-dialog-centered">
+			      <div class="modal-content">
+			        
+			        <!-- Modal body -->
+			        <div class="modal-body">			        
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <p >You Scored:</p>
+			          <h3 th:text="${mark}+'%'">100%</h3>
+			        </div>
+			        
+			      </div>
+			    </div>
+			  </div>
+  
+			
+		</div>
+	</body>
+</html>
